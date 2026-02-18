@@ -65,3 +65,32 @@ Visão Geral
 │  │ (ElevenLabs)│ (APIs)   │  │          │  │          │    │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘    │
 └─────────────────────────────────────────────────────────────┘
+
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/nexus-ai-assistant.git
+cd nexus-ai-assistant
+
+# 2. Crie ambiente virtual
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate  # Windows
+
+# 3. Instale dependências
+pip install -r requirements.txt
+
+# 4. Configure variáveis de ambiente
+cp .env.example .env
+# Edite .env com suas chaves API
+
+# 5. Execute com Docker
+docker-compose up -d
+
+# 6. Acesse o dashboard
+open http://localhost:3000
+
+# Contribuição
+Contribuições são bem-vindas! Por favor, leia o guia de contribuição antes de enviar PRs.
+
+# Licença
+MIT License - Use livremente em seus projetos
+
