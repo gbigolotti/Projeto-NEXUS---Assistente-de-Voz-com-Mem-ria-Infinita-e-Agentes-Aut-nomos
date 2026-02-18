@@ -1,0 +1,128 @@
+# Configuração dos Agentes NEXUS
+
+agents:
+  voice:
+    model: "whisper-large-v3"
+    languages:
+      - pt
+      - en
+      - es
+      - fr
+      - de
+    emotion_detection: true
+    speaker_diarization: true
+    noise_cancellation: true
+    
+  knowledge:
+    rag:
+      retriever_k: 10
+      chunk_size: 512
+      chunk_overlap: 50
+    web_search:
+      enabled: true
+      engines:
+        - google
+        - bing
+        - duckduckgo
+      cache_ttl_hours: 24
+    documents:
+      supported_formats:
+        - pdf
+        - docx
+        - txt
+        - md
+        - html
+      ocr_enabled: true
+      
+  task:
+    max_concurrent_tasks: 5
+    max_retries: 3
+    retry_delay_seconds: 30
+    timeout_minutes: 60
+    notifications:
+      whatsapp: true
+      email: true
+      push: false
+      
+  memory:
+    vector_store:
+      type: "pinecone"
+      dimension: 1536
+      metric: "cosine"
+    graph_db:
+      type: "neo4j"
+      max_depth: 5
+    short_term:
+      ttl_hours: 24
+      max_items: 1000
+    long_term:
+      consolidation_cron: "0 3 * * *"  # 3am daily
+      
+orchestrator:
+  routing:
+    threshold: 0.3
+    fallback_strategy: "ensemble"
+  fusion:
+    method: "weighted"
+    confidence_threshold: 0.6
+  cache:
+    enabled: true
+    ttl_seconds: 3600
+    max_size_mb: 1024
+    
+models:
+  embedding:
+    name: "text-embedding-ada-002"
+    dimension: 1536
+  intent:
+    name: "bert-base-multilingual-cased"
+    num_labels: 20
+  emotion:
+    name: "j-hartmann/emotion-english-distilroberta-base"
+    labels:
+      - anger
+      - disgust
+      - fear
+      - joy
+      - neutral
+      - sadness
+      - surprise
+      
+integrations:
+  google:
+    calendar: true
+    gmail: true
+    drive: true
+  whatsapp:
+    enabled: true
+    business_api: true
+  smart_home:
+    platforms:
+      - homeassistant
+      - philips_hue
+      - smartthings
+  weather:
+    provider: "openweathermap"
+    cache_minutes: 30
+    
+monitoring:
+  metrics:
+    enabled: true
+    export_port: 9090
+  tracing:
+    enabled: true
+    sample_rate: 0.1
+  logging:
+    level: "INFO"
+    format: "json"
+    
+security:
+  authentication:
+    method: "jwt"
+    token_expiry_hours: 24
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+  encryption:
+    algorithm: "AES-256"
+    key_rotation_days: 30
